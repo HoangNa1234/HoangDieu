@@ -1,0 +1,33 @@
+﻿@page "/thongke"
+<h1>Bảng thống kê khách hàng mua hàng</h1>
+<SfGrid DataSource="@Orders" AllowPaging="true" AllowSorting="true" AllowFiltering="true" AllowGrouping="true">
+ <GridPageSettings PageSize="5"></GridPageSettings> @*//hiện người *@
+   <GridColumns>
+     <GridColumn Field=@nameof(Order.OrderID) HeaderText="Mã hàng hóa" TextAlign="TextAlign.Center" Width="210"></GridColumn>
+     <GridColumn Field=@nameof(Order.CustomerID) HeaderText="Họ Tên" TextAlign="TextAlign.Center" Width="210"></GridColumn>
+     <GridColumn Field=@nameof(Order.OrderDate) HeaderText=" Ngày mua hàng" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Center" Width="210"></GridColumn>
+     <GridColumn Field=@nameof(Order.Tensanpham) HeaderText="Tên hàng hóa" Format="C2" TextAlign="TextAlign.Center" Width="210"></GridColumn>
+   </GridColumns>
+</SfGrid>
+
+@code{
+    public List<Order> Orders { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Orders = Enumerable.Range(1, 10).Select(x => new Order()
+        {
+            OrderID = 1000 + x,
+            CustomerID = (new string[] { "Hoàng Diệu", "Hoài Ngọc", "Ngọc Nhi", "Cẩm Nhi", "Cẩm Lai" })[new Random().Next(5)],
+            Tensanpham = (new string[] { "Cây Xương Rồng", "Xương rồng tai thỏ", "Hoa hồng", "Cây móng rồng"})[new Random().Next(3)],
+            OrderDate = DateTime.Now.AddDays(-x),
+        }).ToList();
+    }
+
+    public class Order {
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public string Tensanpham { get; set; }
+        public DateTime? OrderDate { get; set; }
+    }
+}
